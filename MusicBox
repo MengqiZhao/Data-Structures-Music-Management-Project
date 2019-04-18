@@ -1,0 +1,70 @@
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+
+public class MusicBox {
+    List<Song> allSongs;
+    List<PlayList> allPlayLists;
+    Queue<Song> currentPlayQueue;
+
+    public MusicBox(List<Song> allSongs,List<PlayList> allPlayLists) {
+        this.allSongs = allSongs;
+        this.allPlayLists = allPlayLists;
+        currentPlayQueue = new LinkedList<Song>();
+    }
+
+    //Song related methods
+    public Song selectSong(String songName){
+       Song requiredSong = null;
+       for(Song song : allSongs){
+           if(song.getSongName().equals(songName)) {
+               requiredSong = song;
+               break;
+           }
+       }
+       if(requiredSong == null){
+           throw new IllegalArgumentException("Provided song not available");
+       }
+       return requiredSong;
+    }
+
+
+    public void playSong(String songName){
+        Song requiredSong = selectSong(songName);
+        requiredSong.playSong();
+    }
+
+    public void queueNextSong(String songName){
+        Song requiredSong = selectSong(songName);
+        currentPlayQueue.add(requiredSong);
+    }
+
+    //PlayList Related Methods
+    public PlayList selectPlayList(String playListName){
+        PlayList requriedPlayList = null;
+        for(PlayList playList : allPlayLists){
+            if(playList.getPlaylistName().equals(playListName)){
+                requriedPlayList = playList;
+            }
+        }
+        if(requriedPlayList == null){
+            throw new IllegalArgumentException("Provided Playlist not available");
+        }
+        return requriedPlayList;
+    }
+
+    public void playPlayList(String playListName){
+       PlayList playList =  selectPlayList(playListName);
+       List<Song> allSongsInThePlayList = playList.getSongsInPlaylist();
+       //Play First Song
+        allSongsInThePlayList.get(0).playSong();
+       //Add remaining songs to the queue
+        Song currentSong;
+        for(int i = 1 ; i < allSongsInThePlayList.size() ; i++){
+            currentSong = allSongsInThePlayList.get(i);
+            currentPlayQueue.add(currentSong);
+        }
+    }
+
+}
