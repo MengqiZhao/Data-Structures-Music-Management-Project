@@ -1,0 +1,27 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+        //In memory database of songs and play lists
+        List<Song> allSongs = new ArrayList<Song>();
+        Song song1 = new Song("Roses",new Artist("David"));
+        Song song2 = new Song("Ride",new Artist("21Pilots"));
+        Song song3 =new Song("4th Dimension", new Artist("Kid Cudi"));
+        allSongs.add(song1);
+        allSongs.add(song2);
+        allSongs.add(song3);
+        //Playlists
+        List<PlayList> allPlayLists = new ArrayList<PlayList>();
+        List<Song> songsInThePlayList = new ArrayList<Song>();
+        //songsInThePlayList.add(song2);
+        songsInThePlayList.add(song3);
+        PlayList playList1 = new PlayList("Hello",songsInThePlayList);
+        allPlayLists.add(playList1);
+
+        MusicBox musicbox = new MusicBox(allSongs,allPlayLists);
+
+        musicbox.playSong("Roses");
+        musicbox.playPlayList("Hello");
+    }
+}
